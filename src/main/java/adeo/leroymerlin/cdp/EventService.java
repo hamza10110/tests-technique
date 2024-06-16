@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 @Service
 public class EventService {
@@ -35,7 +37,8 @@ public class EventService {
     public List<Event> getFilteredEvents(String query) {
         List<Event> events = eventRepository.findAllBy();
         // Filter the events list in pure JAVA here
-
-        return events;
+        Predicate<Band> bandPredicate = band -> band.getMembers().stream().anyMatch(member -> member.getName().toLowerCase().contains(query.toLowerCase()));
+        Predicate<Event> eventPredicate = event -> event.getBands().stream().anyMatch(bandPredicate);
+        return events.stream().filter(eventPredicate).collect(Collectors.toList());
     }
 }
