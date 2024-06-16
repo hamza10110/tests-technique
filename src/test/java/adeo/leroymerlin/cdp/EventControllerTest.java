@@ -29,7 +29,7 @@ public class EventControllerTest extends AbstractTest{
     }
 
     @Test
-    public void shouldUpdateEventCommentOk(){
+    public void shouldUpdateEventReviewOk(){
         eventController.updateEvent(1L, event);
         Mockito.verify(eventService).updateEvent(1L, event);
     }

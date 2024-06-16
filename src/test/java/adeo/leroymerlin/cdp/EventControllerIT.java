@@ -6,7 +6,6 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import java.util.Optional;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -20,8 +19,8 @@ public class EventControllerIT extends AbstractIT{
              .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(5)));
    }
     @Test
-    public void shouldUpdateEventCommentOk() throws Exception {
-       String updatedEvent= "{\"comment\": \"new comment\"}";
+    public void shouldUpdateEventReviewOk() throws Exception {
+       String updatedEvent= "{\"comment\": \"new comment\", \"nbStars\":4}";
         mockMvc.perform(put("/api/events/1000")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(updatedEvent))
@@ -29,6 +28,7 @@ public class EventControllerIT extends AbstractIT{
 
         Event event = eventRepository.findById(1000L).get();
         Assertions.assertThat(event.getComment()).isEqualTo("new comment");
+        Assertions.assertThat(event.getNbStars()).isEqualTo(4);
     }
     @Test
     public void shouldDeleteEventOk() throws Exception {

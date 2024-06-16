@@ -26,8 +26,8 @@ public class EventService {
     public void updateEvent(Long id, Event event) {
         Optional<Event> eventOptional = eventRepository.findById(id);
         eventOptional.ifPresent(eventToUpdate -> {
-            String comment = event.getComment();
-            eventToUpdate.setComment(comment);
+            eventToUpdate.setComment(event.getComment());
+            eventToUpdate.setNbStars(event.getNbStars());
             eventRepository.save(eventToUpdate);
         });
     }
