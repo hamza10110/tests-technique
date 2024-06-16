@@ -7,7 +7,8 @@ import java.util.List;
 
 @Transactional(readOnly = true)
 public interface EventRepository extends Repository<Event, Long> {
-
+    // set readonly to false to allow write operation in the transaction
+    @Transactional
     void delete(Long eventId);
 
     List<Event> findAllBy();
