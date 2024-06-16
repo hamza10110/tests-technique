@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EventService {
@@ -21,6 +22,14 @@ public class EventService {
 
     public void delete(Long id) {
         eventRepository.delete(id);
+    }
+    public void updateEvent(Long id, Event event) {
+        Optional<Event> eventOptional = eventRepository.findById(id);
+        eventOptional.ifPresent(eventToUpdate -> {
+            String comment = event.getComment();
+            eventToUpdate.setComment(comment);
+            eventRepository.save(eventToUpdate);
+        });
     }
 
     public List<Event> getFilteredEvents(String query) {
