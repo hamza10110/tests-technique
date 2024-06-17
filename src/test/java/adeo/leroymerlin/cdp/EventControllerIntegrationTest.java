@@ -9,7 +9,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class EventControllerIT extends AbstractIT{
+public class EventControllerIntegrationTest extends AbstractIntegrationTest {
    @Autowired
    EventRepository eventRepository;
    @Test
@@ -36,5 +36,23 @@ public class EventControllerIT extends AbstractIT{
                 .andExpect(status().isOk());
         Assertions.assertThat(eventRepository.findAllBy()).hasSize(4);
         Assertions.assertThat(eventRepository.findById(1000L).isPresent()).isFalse();
+    }
+    @Test
+    public void shouldGetEventsByQueryOk() throws Exception {
+        mockMvc.perform(get("/api/events/search/queen"))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(5)));
+    }
+    @Test
+    public void shouldGetEventsByQueryCaseInsensitiveOk() throws Exception {
+        mockMvc.perform(get("/api/events/search/Abi"))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(1)));
+    }
+    @Test
+    public void shouldGetEmptyEventsWhenNotFoundOk() throws Exception {
+        mockMvc.perform(get("/api/events/search/QUUU"))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(0)));
     }
 }

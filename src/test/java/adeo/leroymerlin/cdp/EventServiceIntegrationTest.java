@@ -5,7 +5,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
-public class EventServiceIT extends AbstractIT{
+public class EventServiceIntegrationTest extends AbstractIntegrationTest {
     @Autowired
     EventService eventService;
     @Autowired
