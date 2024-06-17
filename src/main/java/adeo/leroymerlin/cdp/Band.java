@@ -15,6 +15,8 @@ public class Band {
     @OneToMany(fetch=FetchType.EAGER)
     private Set<Member> members;
 
+    @Transient
+    private Integer count;
     public Set<Member> getMembers() {
         return members;
     }
@@ -29,5 +31,13 @@ public class Band {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
     }
 }

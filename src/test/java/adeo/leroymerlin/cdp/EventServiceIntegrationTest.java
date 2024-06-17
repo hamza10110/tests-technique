@@ -48,4 +48,15 @@ public class EventServiceIntegrationTest extends AbstractIntegrationTest {
     public void shouldGetEmptyEventsWhenNotFoundOk(){
         Assertions.assertThat(eventService.getFilteredEvents("QUUU")).isEmpty();
     }
+
+    @Test
+    public void shouldGetEventsByQueryWithCountOk(){
+        List<Event> events = eventService.getFilteredEvents("queen");
+        events.forEach(event -> {
+            Assertions.assertThat(event.getCount()).isEqualTo(event.getBands().size());
+            event.getBands().forEach(band -> {
+                Assertions.assertThat(band.getCount()).isEqualTo(band.getMembers().size());
+            });
+        });
+    }
 }

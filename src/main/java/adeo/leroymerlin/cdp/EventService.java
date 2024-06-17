@@ -39,6 +39,12 @@ public class EventService {
         // Filter the events list in pure JAVA here
         Predicate<Band> bandPredicate = band -> band.getMembers().stream().anyMatch(member -> member.getName().toLowerCase().contains(query.toLowerCase()));
         Predicate<Event> eventPredicate = event -> event.getBands().stream().anyMatch(bandPredicate);
-        return events.stream().filter(eventPredicate).collect(Collectors.toList());
+        return events.stream().filter(eventPredicate).map(this::calculateCounts).collect(Collectors.toList());
+    }
+
+    private Event calculateCounts(Event event) {
+        event.setCount(event.getBands().size());
+        event.getBands().forEach(band -> band.setCount(band.getMembers().size()));
+        return event;
     }
 }

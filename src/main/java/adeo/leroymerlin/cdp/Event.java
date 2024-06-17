@@ -19,7 +19,8 @@ public class Event {
     private Integer nbStars;
 
     private String comment;
-
+    @Transient
+    private Integer count;
     public Long getId() {
         return id;
     }
@@ -66,5 +67,13 @@ public class Event {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public Integer getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
     }
 }
